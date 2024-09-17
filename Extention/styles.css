@@ -1,0 +1,95 @@
+.calibration{
+  position:fixed;
+  top: 0;
+  left: 0;
+  z-index: 9999;  
+  height: 100vh;
+  width: 100%;   
+}
+
+.dot1,.dot2,.dot3,.dot4,.dot5 {
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: -moz-none;
+	-o-user-select: none;
+}    
+
+.dot1{
+  position:absolute;
+  top: 0;
+  left: 0;
+  background-color: red;
+  width: 50px;
+  height: 50px;  
+  border-radius: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-weight: bold;
+  opacity: 0.2;
+}
+
+.dot2{
+  position:absolute;
+  top: 0;
+  right: 0;
+  background-color: red;
+  width: 50px;
+  height: 50px;  
+  border-radius: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-weight: bold;
+  opacity: 0.2;
+}
+
+.dot3{
+  position:absolute;
+  bottom: 0;
+  left: 0;
+  background-color: red;
+  width: 50px;
+  height: 50px;  
+  border-radius: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-weight: bold;
+  opacity: 0.2;
+}
+
+.dot4{
+  position:absolute;
+  bottom: 0;
+  right: 0;
+  background-color: red;
+  width: 50px;
+  height: 50px; 
+  border-radius: 100%; 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-weight: bold;
+  opacity: 0.2;
+}
+
+.dot5{
+  position:absolute;
+  top: 50%;
+  left: 50%;
+  background-color: red;
+  width: 50px;
+  height: 50px; 
+  border-radius: 100%; 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-weight: bold;
+  opacity: 0.2;
+}

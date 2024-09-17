@@ -1,0 +1,143 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bluetooth</title>
+            
+  </head>
+  <body>
+    <button id="read">Connect with BLE device</button>
+    <button id="start" disabled>Start</button>
+    <button id="stop" disabled>Stop</button>
+    <p>Follow the link <u>chrome://bluetooth-internals</u> to open list of devices</p>
+
+    <script>
+      var deviceName = 'MLT-BT05'
+      var bleService = '0000ffe0-0000-1000-8000-00805f9b34fb'
+      var bleCharacteristic = '0000ffe1-0000-1000-8000-00805f9b34fb'
+      var bluetoothDeviceDetected
+      var gattCharacteristic
+
+      document.querySelector('#read').addEventListener('click', function() {
+        if (isWebBluetoothEnabled()) { read() }
+      })
+
+      document.querySelector('#start').addEventListener('click', function(event) {
+        if (isWebBluetoothEnabled()) { start() }
+      })
+
+      document.querySelector('#stop').addEventListener('click', function(event) {
+        if (isWebBluetoothEnabled()) { stop() }
+      })
+
+      function isWebBluetoothEnabled() {
+        if (!navigator.bluetooth) {
+          alert('Web Bluetooth API is not available in this browser!')
+          return false
+        }
+
+        return true
+      }
+
+      function getDeviceInfo() {
+        let options = {
+          optionalServices: [bleService],
+          filters: [
+            { "name": deviceName }
+          ]
+        }
+
+        console.log('Requesting any Bluetooth Device...')
+        return navigator.bluetooth.requestDevice(options).then(device => {
+          bluetoothDeviceDetected = device
+        }).catch(error => {
+          console.log('Argh! ' + error)
+        })
+      }
+
+      function read() {
+        return (bluetoothDeviceDetected ? Promise.resolve() : getDeviceInfo())
+        .then(connectGATT)
+        .then(_ => {          
+          return gattCharacteristic.readValue()
+        })
+        .catch(error => {
+          console.log('Waiting to start reading: ' + error)
+        })
+      }
+      
+
+      function connectGATT() {
+        if (bluetoothDeviceDetected.gatt.connected && gattCharacteristic) {
+          return Promise.resolve()
+        }
+
+        return bluetoothDeviceDetected.gatt.connect()
+        .then(server => {
+          console.log('Getting GATT Service...')
+          return server.getPrimaryService(bleService)
+        })
+        .then(service => {
+          console.log('Getting GATT Characteristic...')
+          return service.getCharacteristic(bleCharacteristic)
+        })
+        .then(characteristic => {
+          gattCharacteristic = characteristic
+          gattCharacteristic.addEventListener('characteristicvaluechanged', handleChangedValue)
+          start();          
+          document.querySelector('#start').disabled = false
+          document.querySelector('#stop').disabled = true
+        })
+      }
+
+      let arr=[];
+      let quality = 0;
+      let attention = "---";
+
+      function handleChangedValue(event) {                
+        let v = event.target.value;
+        if(v.getUint8(0)==170) arr=[];
+
+        for(i=0; i<v.byteLength; i++) {          
+          arr.push(v.getUint8(i))
+        }
+        
+        if(arr.length==36){                       
+          generatedChecksum = 0x00;           
+          for(let i=3; i<35; i++) generatedChecksum += arr[i];          
+          if((~generatedChecksum & 0xFF) == arr[35]){
+            quality = Math.round(100-(arr[arr.indexOf(2)+1]/2));
+            attention = arr[arr.lastIndexOf(4)+1];          
+            if(quality != 100) attention = "---";
+            console.log("Quality:",quality,"Attention:",attention);
+          }                              
+        }                
+      }
+
+      function start() {
+        gattCharacteristic.startNotifications()
+        .then(_ => {
+          console.log('Start reading...')
+          document.querySelector('#start').disabled = true
+          document.querySelector('#stop').disabled = false
+        })
+        .catch(error => {
+          console.log('[ERROR] Start: ' + error)
+        })
+      }
+
+      function stop() {
+        gattCharacteristic.stopNotifications()
+        .then(_ => {
+          console.log('Stop reading...')
+          document.querySelector('#start').disabled = false
+          document.querySelector('#stop').disabled = true
+        })
+        .catch(error => {
+          console.log('[ERROR] Stop: ' + error)
+        })
+      }
+    </script>
+  </body>
+</html>
