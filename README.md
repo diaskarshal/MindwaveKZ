@@ -1,10 +1,10 @@
 # Mindwavekz | UX-audit system using Neural Interface
 
-## High School Programming Project
+## About 
+High School Programming Project
+Collaborated with 5 local companies and detailed feedback on their websites was given
 
-## 5 local companies were used as testing grounds and detailed feedback was given
-
-## Tech Used: 
+## Tech used: 
 HTML / CSS / JS / PHP / webgazer.js
 Neural Interface: NeuroSky's MindWave™ Mobile
 
