@@ -1,4 +1,4 @@
-# Mindwavekz | UX-audit system using Neural Interface
+# MindwaveKZ | UX-audit system using Neural Interface
 
 ## About 
 High School Programming Project  
