@@ -1,8 +1,7 @@
 # MindwaveKZ | UX-audit system using Neural Interface
 
 ## About 
-MindwaveKZ is a ux-audit tool combining data from the neurosky mindwave™ mobile and webcam-based eye tracking.  
-Built as a high school project, it was tested on 5 companies to analyze user attention and engagement on companies' websites.
+MindwaveKZ is a ux-audit tool combining data from the neurosky mindwave™ mobile and webcam-based eye tracking. Built as a high school project, it was tested on 5 companies to analyze user attention and engagement on companies' websites.
 
 ## Output
 Captures:
