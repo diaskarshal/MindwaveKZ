@@ -83,7 +83,7 @@ startButton.addEventListener(
         for(let i=2; i<arrMindwaves.length; i++){          
           srtTxt += `${i-1}\n${convertSeconds(i-2)} --> ${convertSeconds(i-1)}\nКачество сигнала: ${arrMindwaves[i].quality}% Внимание: ${arrMindwaves[i].attention}%\n\n`                               
         }        
-
+ 
         var blob = new Blob([srtTxt], { type: "text/plain;charset=utf-8" });
         saveAs(blob, `${fileName}.srt`);
           

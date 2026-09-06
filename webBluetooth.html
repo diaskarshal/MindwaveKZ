@@ -102,7 +102,7 @@
         for(i=0; i<v.byteLength; i++) {          
           arr.push(v.getUint8(i))
         }
-        
+         
         if(arr.length==36){                       
           generatedChecksum = 0x00;           
           for(let i=3; i<35; i++) generatedChecksum += arr[i];          
